@@ -10,6 +10,7 @@ namespace TileMap.Rendering
     {
         [SerializeField] private WorldTileMap worldTileMap;
         [SerializeField] private Tilemap groundTilemap;
+        [SerializeField] private Tilemap overlayTilemap;
         [SerializeField] private RuntimeDebugTilePalette palette;
         [SerializeField] private AutoTilePalette autoTilePalette;
         [SerializeField] private int renderRadiusInChunks = 2;
@@ -18,7 +19,8 @@ namespace TileMap.Rendering
         private readonly HashSet<Vector2Int> renderedChunks = new HashSet<Vector2Int>();
         private readonly HashSet<Vector2Int> targetChunks = new HashSet<Vector2Int>();
         private readonly List<Vector2Int> chunksToRemove = new List<Vector2Int>();
-        private TileBase[] tileBuffer;
+        private TileBase[] groundTileBuffer;
+        private TileBase[] overlayTileBuffer;
         private TileBase[] clearBuffer;
 
         public void Initialize(
@@ -28,8 +30,20 @@ namespace TileMap.Rendering
             int radiusInChunks = 2,
             AutoTilePalette bitmaskPalette = null)
         {
+            Initialize(map, tilemap, null, runtimePalette, radiusInChunks, bitmaskPalette);
+        }
+
+        public void Initialize(
+            WorldTileMap map,
+            Tilemap groundLayer,
+            Tilemap overlayLayer,
+            RuntimeDebugTilePalette runtimePalette,
+            int radiusInChunks = 2,
+            AutoTilePalette bitmaskPalette = null)
+        {
             worldTileMap = map;
-            groundTilemap = tilemap;
+            groundTilemap = groundLayer;
+            overlayTilemap = overlayLayer;
             palette = runtimePalette;
             autoTilePalette = bitmaskPalette;
             renderRadiusInChunks = Mathf.Max(1, radiusInChunks);
@@ -140,12 +154,13 @@ namespace TileMap.Rendering
         private void EnsureBuffers(int chunkSize)
         {
             int tileCount = chunkSize * chunkSize;
-            if (tileBuffer != null && tileBuffer.Length == tileCount)
+            if (groundTileBuffer != null && groundTileBuffer.Length == tileCount)
             {
                 return;
             }
 
-            tileBuffer = new TileBase[tileCount];
+            groundTileBuffer = new TileBase[tileCount];
+            overlayTileBuffer = new TileBase[tileCount];
             clearBuffer = new TileBase[tileCount];
         }
 
@@ -161,17 +176,25 @@ namespace TileMap.Rendering
                 int rowOffset = localY * chunkSize;
                 for (int localX = 0; localX < chunkSize; localX++)
                 {
-                    byte tileId = chunk.GetLocal(localX, localY);
                     int tileX = chunkCoord.x * chunkSize + localX;
                     int tileY = chunkCoord.y * chunkSize + localY;
-                    tileBuffer[rowOffset + localX] = ResolveTile(tileX, tileY, tileId);
+                    byte groundTileId = chunk.GetLocal(localX, localY, TileLayer.Ground);
+                    byte overlayTileId = chunk.GetLocal(localX, localY, TileLayer.Overlay);
+                    int bufferIndex = rowOffset + localX;
+                    groundTileBuffer[bufferIndex] = ResolveTile(tileX, tileY, groundTileId, TileLayer.Ground);
+                    overlayTileBuffer[bufferIndex] = ResolveTile(tileX, tileY, overlayTileId, TileLayer.Overlay);
                 }
             }
 
-            groundTilemap.SetTilesBlock(GetChunkBounds(chunkCoord, chunkSize), tileBuffer);
+            BoundsInt bounds = GetChunkBounds(chunkCoord, chunkSize);
+            groundTilemap.SetTilesBlock(bounds, groundTileBuffer);
+            if (overlayTilemap != null)
+            {
+                overlayTilemap.SetTilesBlock(bounds, overlayTileBuffer);
+            }
         }
 
-        private TileBase ResolveTile(int tileX, int tileY, byte tileId)
+        private TileBase ResolveTile(int tileX, int tileY, byte tileId, TileLayer layer)
         {
             if (tileId == 0)
             {
@@ -180,7 +203,8 @@ namespace TileMap.Rendering
 
             if (autoTilePalette != null && autoTilePalette.TryGetSet(tileId, out AutoTileSet tileSet))
             {
-                int mask = CalculateEightDirectionMask(tileX, tileY, tileSet);
+                TileLayer maskLayer = ResolveMaskLayer(layer, tileSet.MaskSource);
+                int mask = CalculateEightDirectionMask(tileX, tileY, tileSet, maskLayer);
                 TileBase autoTile = tileSet.GetTile(mask);
                 if (autoTile != null)
                 {
@@ -191,12 +215,27 @@ namespace TileMap.Rendering
             return palette != null ? palette.GetTile(tileId) : null;
         }
 
-        private int CalculateEightDirectionMask(int tileX, int tileY, AutoTileSet tileSet)
+        private static TileLayer ResolveMaskLayer(TileLayer renderLayer, AutoTileMaskSource maskSource)
         {
-            bool up = MatchesAutoTile(tileX, tileY + 1, tileSet);
-            bool right = MatchesAutoTile(tileX + 1, tileY, tileSet);
-            bool down = MatchesAutoTile(tileX, tileY - 1, tileSet);
-            bool left = MatchesAutoTile(tileX - 1, tileY, tileSet);
+            switch (maskSource)
+            {
+                case AutoTileMaskSource.GroundLayer:
+                    return TileLayer.Ground;
+                case AutoTileMaskSource.OverlayLayer:
+                    return TileLayer.Overlay;
+                case AutoTileMaskSource.EffectiveLayer:
+                    return TileLayer.Effective;
+                default:
+                    return renderLayer;
+            }
+        }
+
+        private int CalculateEightDirectionMask(int tileX, int tileY, AutoTileSet tileSet, TileLayer layer)
+        {
+            bool up = MatchesAutoTile(tileX, tileY + 1, tileSet, layer);
+            bool right = MatchesAutoTile(tileX + 1, tileY, tileSet, layer);
+            bool down = MatchesAutoTile(tileX, tileY - 1, tileSet, layer);
+            bool left = MatchesAutoTile(tileX - 1, tileY, tileSet, layer);
 
             int mask = 0;
             if (up) mask |= 1;
@@ -204,22 +243,22 @@ namespace TileMap.Rendering
             if (down) mask |= 16;
             if (left) mask |= 64;
 
-            if (up && right && MatchesAutoTile(tileX + 1, tileY + 1, tileSet)) mask |= 2;
-            if (down && right && MatchesAutoTile(tileX + 1, tileY - 1, tileSet)) mask |= 8;
-            if (down && left && MatchesAutoTile(tileX - 1, tileY - 1, tileSet)) mask |= 32;
-            if (up && left && MatchesAutoTile(tileX - 1, tileY + 1, tileSet)) mask |= 128;
+            if (up && right && MatchesAutoTile(tileX + 1, tileY + 1, tileSet, layer)) mask |= 2;
+            if (down && right && MatchesAutoTile(tileX + 1, tileY - 1, tileSet, layer)) mask |= 8;
+            if (down && left && MatchesAutoTile(tileX - 1, tileY - 1, tileSet, layer)) mask |= 32;
+            if (up && left && MatchesAutoTile(tileX - 1, tileY + 1, tileSet, layer)) mask |= 128;
 
             return mask;
         }
 
-        private bool MatchesAutoTile(int tileX, int tileY, AutoTileSet tileSet)
+        private bool MatchesAutoTile(int tileX, int tileY, AutoTileSet tileSet, TileLayer layer)
         {
             if (!worldTileMap.IsInBounds(tileX, tileY))
             {
                 return false;
             }
 
-            return tileSet.Matches(worldTileMap.GetTile(tileX, tileY));
+            return tileSet.Matches(worldTileMap.GetTile(tileX, tileY, layer));
         }
 
         private void RenderVisibleNeighborChunks(Vector2Int chunkCoord, Vector2Int chunkCenter, int chunkSize)
@@ -246,7 +285,12 @@ namespace TileMap.Rendering
 
         private void ClearChunkBlock(Vector2Int chunkCoord, int chunkSize)
         {
-            groundTilemap.SetTilesBlock(GetChunkBounds(chunkCoord, chunkSize), clearBuffer);
+            BoundsInt bounds = GetChunkBounds(chunkCoord, chunkSize);
+            groundTilemap.SetTilesBlock(bounds, clearBuffer);
+            if (overlayTilemap != null)
+            {
+                overlayTilemap.SetTilesBlock(bounds, clearBuffer);
+            }
         }
 
         private static BoundsInt GetChunkBounds(Vector2Int chunkCoord, int chunkSize)

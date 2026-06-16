@@ -3,11 +3,20 @@ using UnityEngine.Tilemaps;
 
 namespace TileMap.Data
 {
+    public enum AutoTileMaskSource
+    {
+        RenderLayer,
+        GroundLayer,
+        OverlayLayer,
+        EffectiveLayer
+    }
+
     [CreateAssetMenu(menuName = "Tools/World/Auto Tile Set", fileName = "AutoTileSet")]
     public class AutoTileSet : ScriptableObject
     {
         [SerializeField] private TileId tileId;
         [SerializeField] private TileId[] connectsTo = new TileId[0];
+        [SerializeField] private AutoTileMaskSource maskSource = AutoTileMaskSource.RenderLayer;
         [SerializeField] private TileBase fallbackTile;
         [SerializeField] private bool autoFillMasksFromNineSlice = true;
         [SerializeField] private bool clearMasksBeforeAutoFill = true;
@@ -15,6 +24,7 @@ namespace TileMap.Data
         [SerializeField, HideInInspector] private TileBase[] tilesByMask = new TileBase[256];
 
         public TileId TileId => tileId;
+        public AutoTileMaskSource MaskSource => maskSource;
         public TileBase FallbackTile => fallbackTile;
         public bool HasFallbackTile => fallbackTile != null;
 

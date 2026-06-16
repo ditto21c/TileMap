@@ -42,6 +42,7 @@ namespace TileMap.Rendering
                 case TileId.DirtA: return new Color32(132, 103, 70, 255);
                 case TileId.RoadA: return new Color32(194, 175, 118, 255);
                 case TileId.TallGrass: return new Color32(52, 120, 44, 255);
+                case TileId.GrassEdgeOverlay: return new Color32(62, 150, 54, 180);
                 case TileId.RockLarge: return new Color32(112, 112, 120, 255);
                 case TileId.RuinFloor: return new Color32(146, 132, 112, 255);
                 case TileId.OldWall: return new Color32(92, 84, 78, 255);

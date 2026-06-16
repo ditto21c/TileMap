@@ -12,6 +12,10 @@ namespace TileMap.Generation
         [SerializeField] private int roadHalfWidth = 2;
         [SerializeField] private int roadSpacing = 720;
         [SerializeField] private float featureNoiseScale = 0.014f;
+        [SerializeField] private bool placeGrassEdgeOverlays = true;
+        [SerializeField] private TileId grassEdgeOverlayTile = TileId.GrassEdgeOverlay;
+        [SerializeField] private TileId[] grassEdgeSourceGrounds = { TileId.GrassA, TileId.GrassB };
+        [SerializeField] private TileId[] grassEdgeOverlayHosts = { TileId.RoadA, TileId.DirtA, TileId.RuinFloor };
 
         public int Seed => seed;
 
@@ -30,7 +34,8 @@ namespace TileMap.Generation
             {
                 for (int x = bounds.xMin; x < xMax; x++)
                 {
-                    world.SetTile(x, y, GenerateTileAt(world, x, y));
+                    GenerateTileAt(world, x, y, out byte groundTileId, out byte overlayTileId);
+                    world.SetLayeredTile(x, y, groundTileId, overlayTileId);
                 }
             }
 
@@ -86,23 +91,37 @@ namespace TileMap.Generation
             return BiomeType.Grassland;
         }
 
-        private byte GenerateTileAt(WorldTileMap world, int x, int y)
+        private void GenerateTileAt(WorldTileMap world, int x, int y, out byte groundTileId, out byte overlayTileId)
+        {
+            GenerateBaseTileAt(world, x, y, out groundTileId, out overlayTileId);
+            if (overlayTileId == (byte)TileId.Void && ShouldPlaceGrassEdgeOverlay(world, x, y, groundTileId))
+            {
+                overlayTileId = (byte)grassEdgeOverlayTile;
+            }
+        }
+
+        private void GenerateBaseTileAt(WorldTileMap world, int x, int y, out byte groundTileId, out byte overlayTileId)
         {
             BiomeType biome = GetBiomeAt(world, x, y);
+            overlayTileId = (byte)TileId.Void;
 
             if (IsSpawnArea(world, x, y))
             {
-                return (byte)TileId.SpawnPlayer;
+                groundTileId = IsMainRoad(world, x, y) ? (byte)TileId.RoadA : (byte)TileId.GrassA;
+                overlayTileId = (byte)TileId.SpawnPlayer;
+                return;
             }
 
             if (IsBossCore(world, x, y))
             {
-                return GenerateBossCoreTile(world, x, y);
+                GenerateBossCoreTile(world, x, y, out groundTileId, out overlayTileId);
+                return;
             }
 
             if (IsMainRoad(world, x, y))
             {
-                return (byte)TileId.RoadA;
+                groundTileId = (byte)TileId.RoadA;
+                return;
             }
 
             float feature = NoiseUtility.Hash01(x, y, seed + 991);
@@ -111,22 +130,79 @@ namespace TileMap.Generation
             switch (biome)
             {
                 case BiomeType.Grassland:
-                    return GenerateGrasslandTile(x, y, feature, macroNoise);
+                    GenerateGrasslandTile(feature, macroNoise, out groundTileId, out overlayTileId);
+                    return;
                 case BiomeType.Ruins:
-                    return GenerateRuinsTile(x, y, feature, macroNoise);
+                    GenerateRuinsTile(feature, macroNoise, out groundTileId, out overlayTileId);
+                    return;
                 case BiomeType.Forest:
-                    return GenerateForestTile(x, y, feature, macroNoise);
+                    GenerateForestTile(feature, macroNoise, out groundTileId, out overlayTileId);
+                    return;
                 case BiomeType.Swamp:
-                    return GenerateSwampTile(x, y, feature, macroNoise);
+                    GenerateSwampTile(feature, macroNoise, out groundTileId, out overlayTileId);
+                    return;
                 case BiomeType.Cave:
-                    return GenerateCaveTile(x, y, feature, macroNoise);
+                    GenerateCaveTile(feature, macroNoise, out groundTileId, out overlayTileId);
+                    return;
                 case BiomeType.Volcano:
-                    return GenerateVolcanoTile(x, y, feature, macroNoise);
+                    GenerateVolcanoTile(feature, macroNoise, out groundTileId, out overlayTileId);
+                    return;
                 case BiomeType.BossCore:
-                    return (byte)TileId.BossArena;
+                    groundTileId = (byte)TileId.BossArena;
+                    return;
                 default:
-                    return (byte)TileId.GrassA;
+                    groundTileId = (byte)TileId.GrassA;
+                    return;
             }
+        }
+
+        private bool ShouldPlaceGrassEdgeOverlay(WorldTileMap world, int x, int y, byte groundTileId)
+        {
+            if (!placeGrassEdgeOverlays
+                || grassEdgeOverlayTile == TileId.Void
+                || !ContainsTileId(grassEdgeOverlayHosts, groundTileId))
+            {
+                return false;
+            }
+
+            return HasCardinalGroundNeighbor(world, x, y, grassEdgeSourceGrounds);
+        }
+
+        private bool HasCardinalGroundNeighbor(WorldTileMap world, int x, int y, TileId[] groundTileIds)
+        {
+            return IsGeneratedGroundInSet(world, x, y + 1, groundTileIds)
+                || IsGeneratedGroundInSet(world, x + 1, y, groundTileIds)
+                || IsGeneratedGroundInSet(world, x, y - 1, groundTileIds)
+                || IsGeneratedGroundInSet(world, x - 1, y, groundTileIds);
+        }
+
+        private bool IsGeneratedGroundInSet(WorldTileMap world, int x, int y, TileId[] groundTileIds)
+        {
+            if (!world.IsInBounds(x, y))
+            {
+                return false;
+            }
+
+            GenerateBaseTileAt(world, x, y, out byte neighborGroundTileId, out _);
+            return ContainsTileId(groundTileIds, neighborGroundTileId);
+        }
+
+        private static bool ContainsTileId(TileId[] tileIds, byte tileId)
+        {
+            if (tileIds == null)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < tileIds.Length; i++)
+            {
+                if (tileId == (byte)tileIds[i])
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private bool IsSpawnArea(WorldTileMap world, int x, int y)
@@ -161,8 +237,9 @@ namespace TileMap.Generation
             return ringRoad || verticalRoad || horizontalRoad;
         }
 
-        private byte GenerateBossCoreTile(WorldTileMap world, int x, int y)
+        private void GenerateBossCoreTile(WorldTileMap world, int x, int y, out byte groundTileId, out byte overlayTileId)
         {
+            overlayTileId = (byte)TileId.Void;
             int centerX = world.WorldWidth / 2;
             int centerY = world.WorldHeight / 2;
             int dx = x - centerX;
@@ -171,81 +248,96 @@ namespace TileMap.Generation
 
             if (d2 <= 24 * 24)
             {
-                return (byte)TileId.EndPortal;
+                groundTileId = (byte)TileId.BossArena;
+                overlayTileId = (byte)TileId.EndPortal;
+                return;
             }
 
             if (d2 <= 64 * 64)
             {
-                return (byte)TileId.BossArena;
+                groundTileId = (byte)TileId.BossArena;
+                return;
             }
 
-            return (byte)TileId.LavaShallow;
+            groundTileId = (byte)TileId.LavaShallow;
         }
 
-        private byte GenerateGrasslandTile(int x, int y, float feature, float macroNoise)
+        private void GenerateGrasslandTile(float feature, float macroNoise, out byte groundTileId, out byte overlayTileId)
         {
-            if (feature < 0.012f) return (byte)TileId.OreCopper;
-            if (feature < 0.020f) return (byte)TileId.Campfire;
-            if (feature < 0.040f) return (byte)TileId.EnemyTier1;
-            if (feature < 0.065f) return (byte)TileId.TallGrass;
-            if (feature < 0.078f) return (byte)TileId.RockLarge;
-            if (feature < 0.096f) return (byte)TileId.WaterShallow;
-            if (macroNoise > 0.6f) return (byte)TileId.GrassB;
-            return (byte)TileId.GrassA;
+            groundTileId = macroNoise > 0.6f ? (byte)TileId.GrassB : (byte)TileId.GrassA;
+            overlayTileId = (byte)TileId.Void;
+
+            if (feature < 0.012f) overlayTileId = (byte)TileId.OreCopper;
+            else if (feature < 0.020f) overlayTileId = (byte)TileId.Campfire;
+            else if (feature < 0.040f) overlayTileId = (byte)TileId.EnemyTier1;
+            else if (feature < 0.065f) overlayTileId = (byte)TileId.TallGrass;
+            else if (feature < 0.078f) overlayTileId = (byte)TileId.RockLarge;
+            else if (feature < 0.096f) groundTileId = (byte)TileId.WaterShallow;
         }
 
-        private byte GenerateRuinsTile(int x, int y, float feature, float macroNoise)
+        private void GenerateRuinsTile(float feature, float macroNoise, out byte groundTileId, out byte overlayTileId)
         {
-            if (feature < 0.020f) return (byte)TileId.OldWall;
-            if (feature < 0.038f) return (byte)TileId.EnemyTier1;
-            if (feature < 0.048f) return (byte)TileId.OreCopper;
-            if (feature < 0.055f) return (byte)TileId.MerchantSpot;
-            if (feature < 0.065f) return (byte)TileId.TreasureMinor;
-            if (macroNoise > 0.62f) return (byte)TileId.DirtA;
-            return (byte)TileId.RuinFloor;
+            groundTileId = macroNoise > 0.62f ? (byte)TileId.DirtA : (byte)TileId.RuinFloor;
+            overlayTileId = (byte)TileId.Void;
+
+            if (feature < 0.020f) overlayTileId = (byte)TileId.OldWall;
+            else if (feature < 0.038f) overlayTileId = (byte)TileId.EnemyTier1;
+            else if (feature < 0.048f) overlayTileId = (byte)TileId.OreCopper;
+            else if (feature < 0.055f) overlayTileId = (byte)TileId.MerchantSpot;
+            else if (feature < 0.065f) overlayTileId = (byte)TileId.TreasureMinor;
         }
 
-        private byte GenerateForestTile(int x, int y, float feature, float macroNoise)
+        private void GenerateForestTile(float feature, float macroNoise, out byte groundTileId, out byte overlayTileId)
         {
-            if (feature < 0.11f) return (byte)TileId.TreePine;
-            if (feature < 0.125f) return (byte)TileId.BushDense;
-            if (feature < 0.135f) return (byte)TileId.ResourceWood;
-            if (feature < 0.150f) return (byte)TileId.EnemyTier3;
-            if (feature < 0.156f) return (byte)TileId.ShrineNature;
-            if (feature < 0.162f) return (byte)TileId.TreasureForest;
-            return macroNoise > 0.58f ? (byte)TileId.ForestFloorB : (byte)TileId.ForestFloorA;
+            groundTileId = macroNoise > 0.58f ? (byte)TileId.ForestFloorB : (byte)TileId.ForestFloorA;
+            overlayTileId = (byte)TileId.Void;
+
+            if (feature < 0.11f) overlayTileId = (byte)TileId.TreePine;
+            else if (feature < 0.125f) overlayTileId = (byte)TileId.BushDense;
+            else if (feature < 0.135f) overlayTileId = (byte)TileId.ResourceWood;
+            else if (feature < 0.150f) overlayTileId = (byte)TileId.EnemyTier3;
+            else if (feature < 0.156f) overlayTileId = (byte)TileId.ShrineNature;
+            else if (feature < 0.162f) overlayTileId = (byte)TileId.TreasureForest;
         }
 
-        private byte GenerateSwampTile(int x, int y, float feature, float macroNoise)
+        private void GenerateSwampTile(float feature, float macroNoise, out byte groundTileId, out byte overlayTileId)
         {
-            if (feature < 0.060f) return (byte)TileId.SwampDeep;
-            if (feature < 0.090f) return (byte)TileId.WaterShallow;
-            if (feature < 0.120f) return (byte)TileId.EnemyTier3;
-            if (feature < 0.132f) return (byte)TileId.OreIron;
-            if (feature < 0.138f) return (byte)TileId.EventMinor;
-            return macroNoise > 0.55f ? (byte)TileId.WaterDeep : (byte)TileId.SwampShallow;
+            groundTileId = (byte)TileId.SwampShallow;
+            overlayTileId = (byte)TileId.Void;
+
+            if (feature < 0.060f) groundTileId = (byte)TileId.SwampDeep;
+            else if (feature < 0.090f) groundTileId = (byte)TileId.WaterShallow;
+            else if (feature < 0.120f) overlayTileId = (byte)TileId.EnemyTier3;
+            else if (feature < 0.132f) overlayTileId = (byte)TileId.OreIron;
+            else if (feature < 0.138f) overlayTileId = (byte)TileId.EventMinor;
+            else groundTileId = macroNoise > 0.55f ? (byte)TileId.WaterDeep : (byte)TileId.SwampShallow;
         }
 
-        private byte GenerateCaveTile(int x, int y, float feature, float macroNoise)
+        private void GenerateCaveTile(float feature, float macroNoise, out byte groundTileId, out byte overlayTileId)
         {
-            if (feature < 0.040f) return (byte)TileId.Pit;
-            if (feature < 0.070f) return (byte)TileId.MineTrack;
-            if (feature < 0.090f) return (byte)TileId.OreSilver;
-            if (feature < 0.112f) return (byte)TileId.EnemyCave1;
-            if (feature < 0.120f) return (byte)TileId.ForgeUnderground;
-            if (feature < 0.126f) return (byte)TileId.TreasureCave;
-            if (macroNoise > 0.63f) return (byte)TileId.CaveBossGate;
-            return (byte)TileId.CaveFloorA;
+            groundTileId = (byte)TileId.CaveFloorA;
+            overlayTileId = (byte)TileId.Void;
+
+            if (feature < 0.040f) groundTileId = (byte)TileId.Pit;
+            else if (feature < 0.070f) groundTileId = (byte)TileId.MineTrack;
+            else if (feature < 0.090f) overlayTileId = (byte)TileId.OreSilver;
+            else if (feature < 0.112f) overlayTileId = (byte)TileId.EnemyCave1;
+            else if (feature < 0.120f) overlayTileId = (byte)TileId.ForgeUnderground;
+            else if (feature < 0.126f) overlayTileId = (byte)TileId.TreasureCave;
+            else if (macroNoise > 0.63f) overlayTileId = (byte)TileId.CaveBossGate;
         }
 
-        private byte GenerateVolcanoTile(int x, int y, float feature, float macroNoise)
+        private void GenerateVolcanoTile(float feature, float macroNoise, out byte groundTileId, out byte overlayTileId)
         {
-            if (feature < 0.030f) return (byte)TileId.LavaDeep;
-            if (feature < 0.070f) return (byte)TileId.LavaShallow;
-            if (feature < 0.094f) return (byte)TileId.EnemyFire1;
-            if (feature < 0.102f) return (byte)TileId.ShrineFire;
-            if (feature < 0.110f) return (byte)TileId.OreMythril;
-            return macroNoise > 0.58f ? (byte)TileId.LavaShallow : (byte)TileId.AshGround;
+            groundTileId = (byte)TileId.AshGround;
+            overlayTileId = (byte)TileId.Void;
+
+            if (feature < 0.030f) groundTileId = (byte)TileId.LavaDeep;
+            else if (feature < 0.070f) groundTileId = (byte)TileId.LavaShallow;
+            else if (feature < 0.094f) overlayTileId = (byte)TileId.EnemyFire1;
+            else if (feature < 0.102f) overlayTileId = (byte)TileId.ShrineFire;
+            else if (feature < 0.110f) overlayTileId = (byte)TileId.OreMythril;
+            else groundTileId = macroNoise > 0.58f ? (byte)TileId.LavaShallow : (byte)TileId.AshGround;
         }
     }
 }

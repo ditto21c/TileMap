@@ -108,8 +108,9 @@ namespace TileMap.Movement
         {
             IsMoving = true;
 
-            var tileDef = worldTileMap.TileDatabase.Get(worldTileMap.GetTile(target.x, target.y));
-            float moveCostScale = tileDef != null ? Mathf.Max(tileDef.moveCost / 100f, 0.25f) : 1f;
+            TileDefinition groundTileDef = worldTileMap.GetTileDefinition(target.x, target.y, TileLayer.Ground);
+            TileDefinition overlayTileDef = worldTileMap.GetTileDefinition(target.x, target.y, TileLayer.Overlay);
+            float moveCostScale = Mathf.Max(worldTileMap.GetMoveCost(target.x, target.y) / 100f, 0.25f);
             float duration = baseMoveDuration * moveCostScale;
 
             Vector3 start = transform.position;
@@ -130,7 +131,8 @@ namespace TileMap.Movement
             }
 
             transform.position = end;
-            ApplyTileEffect(tileDef);
+            ApplyTileEffect(groundTileDef);
+            ApplyTileEffect(overlayTileDef);
             IsMoving = false;
         }
 

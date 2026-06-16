@@ -32,8 +32,16 @@ namespace TileMap.Bootstrap
             var groundObject = new GameObject("GroundTilemap", typeof(Tilemap), typeof(TilemapRenderer));
             groundObject.transform.SetParent(gridObject.transform, false);
             var groundTilemap = groundObject.GetComponent<Tilemap>();
-            var tilemapRenderer = groundObject.GetComponent<TilemapRenderer>();
-            tilemapRenderer.sortOrder = TilemapRenderer.SortOrder.TopRight;
+            var groundRenderer = groundObject.GetComponent<TilemapRenderer>();
+            groundRenderer.sortOrder = TilemapRenderer.SortOrder.TopRight;
+            groundRenderer.sortingOrder = 0;
+
+            var overlayObject = new GameObject("OverlayTilemap", typeof(Tilemap), typeof(TilemapRenderer));
+            overlayObject.transform.SetParent(gridObject.transform, false);
+            var overlayTilemap = overlayObject.GetComponent<Tilemap>();
+            var overlayRenderer = overlayObject.GetComponent<TilemapRenderer>();
+            overlayRenderer.sortOrder = TilemapRenderer.SortOrder.TopRight;
+            overlayRenderer.sortingOrder = 10;
 
             var worldObject = new GameObject("WorldRoot");
             var worldTileMap = worldObject.AddComponent<WorldTileMap>();
@@ -43,7 +51,7 @@ namespace TileMap.Bootstrap
             var debugPalette = worldObject.AddComponent<RuntimeDebugTilePalette>();
             var worldRenderer = worldObject.AddComponent<WorldTilemapRenderer>();
             AutoTilePalette resolvedAutoTilePalette = ResolveAutoTilePalette();
-            worldRenderer.Initialize(worldTileMap, groundTilemap, debugPalette, renderRadiusInChunks, resolvedAutoTilePalette);
+            worldRenderer.Initialize(worldTileMap, groundTilemap, overlayTilemap, debugPalette, renderRadiusInChunks, resolvedAutoTilePalette);
 
             var playerObject = new GameObject("Player", typeof(SpriteRenderer));
             playerObject.transform.position = Vector3.zero;

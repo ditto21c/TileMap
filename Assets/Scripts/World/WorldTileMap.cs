@@ -4,6 +4,13 @@ using TileMap.Data;
 
 namespace TileMap.World
 {
+    public enum TileLayer
+    {
+        Effective,
+        Ground,
+        Overlay
+    }
+
     public class WorldTileMap : MonoBehaviour
     {
         [SerializeField] private int worldWidth = 10000;
@@ -43,6 +50,21 @@ namespace TileMap.World
 
         public byte GetTile(int x, int y)
         {
+            return GetTile(x, y, TileLayer.Effective);
+        }
+
+        public byte GetGroundTile(int x, int y)
+        {
+            return GetTile(x, y, TileLayer.Ground);
+        }
+
+        public byte GetOverlayTile(int x, int y)
+        {
+            return GetTile(x, y, TileLayer.Overlay);
+        }
+
+        public byte GetTile(int x, int y, TileLayer layer)
+        {
             if (!IsInBounds(x, y))
             {
                 return (byte)TileId.Void;
@@ -54,10 +76,16 @@ namespace TileMap.World
                 return (byte)TileId.Void;
             }
 
-            return chunk.GetLocal(localX, localY);
+            return chunk.GetLocal(localX, localY, layer);
         }
 
         public void SetTile(int x, int y, byte tileId)
+        {
+            SetTile(x, y, tileId, TileLayer.Ground);
+            SetTile(x, y, (byte)TileId.Void, TileLayer.Overlay);
+        }
+
+        public void SetTile(int x, int y, byte tileId, TileLayer layer)
         {
             if (!IsInBounds(x, y))
             {
@@ -66,7 +94,19 @@ namespace TileMap.World
 
             GetChunkAndLocal(x, y, out int chunkX, out int chunkY, out int localX, out int localY);
             var chunk = GetOrCreateChunk(chunkX, chunkY);
-            chunk.SetLocal(localX, localY, tileId);
+            chunk.SetLocal(localX, localY, tileId, layer);
+        }
+
+        public void SetLayeredTile(int x, int y, byte groundTileId, byte overlayTileId = 0)
+        {
+            if (!IsInBounds(x, y))
+            {
+                return;
+            }
+
+            GetChunkAndLocal(x, y, out int chunkX, out int chunkY, out int localX, out int localY);
+            var chunk = GetOrCreateChunk(chunkX, chunkY);
+            chunk.SetLayeredLocal(localX, localY, groundTileId, overlayTileId);
         }
 
         public bool IsWalkable(int x, int y, bool ignoreOccupancy = false)
@@ -76,13 +116,62 @@ namespace TileMap.World
                 return false;
             }
 
-            byte tileId = GetTile(x, y);
-            if (!tileDatabase.IsWalkable(tileId))
+            TileDefinition groundDefinition = GetTileDefinition(x, y, TileLayer.Ground);
+            if (groundDefinition == null || groundDefinition.IsBlocked)
             {
                 return false;
             }
 
+            byte overlayTileId = GetOverlayTile(x, y);
+            if (overlayTileId != (byte)TileId.Void)
+            {
+                TileDefinition overlayDefinition = GetTileDefinition(x, y, TileLayer.Overlay);
+                if (overlayDefinition == null || overlayDefinition.IsBlocked)
+                {
+                    return false;
+                }
+            }
+
             return ignoreOccupancy || !IsOccupied(x, y);
+        }
+
+        public int GetMoveCost(int x, int y)
+        {
+            if (!IsInBounds(x, y) || tileDatabase == null)
+            {
+                return 255;
+            }
+
+            TileDefinition groundDefinition = GetTileDefinition(x, y, TileLayer.Ground);
+            if (groundDefinition == null || groundDefinition.IsBlocked)
+            {
+                return 255;
+            }
+
+            int moveCost = Mathf.Max(groundDefinition.moveCost, (byte)1);
+            byte overlayTileId = GetOverlayTile(x, y);
+            if (overlayTileId == (byte)TileId.Void)
+            {
+                return moveCost;
+            }
+
+            TileDefinition overlayDefinition = GetTileDefinition(x, y, TileLayer.Overlay);
+            if (overlayDefinition == null || overlayDefinition.IsBlocked)
+            {
+                return 255;
+            }
+
+            return Mathf.Max(moveCost, Mathf.Max(overlayDefinition.moveCost, (byte)1));
+        }
+
+        public TileDefinition GetTileDefinition(int x, int y, TileLayer layer = TileLayer.Effective)
+        {
+            if (tileDatabase == null)
+            {
+                return null;
+            }
+
+            return tileDatabase.Get(GetTile(x, y, layer));
         }
 
         public bool IsOccupied(int x, int y)

@@ -23,6 +23,7 @@ namespace TileMap.Bootstrap
                 Create((byte)TileId.DirtA, "Dirt A", true, 100, BiomeType.Grassland),
                 Create((byte)TileId.RoadA, "Road", true, 85, BiomeType.Grassland),
                 Create((byte)TileId.TallGrass, "Tall Grass", true, 115, BiomeType.Grassland),
+                Create((byte)TileId.GrassEdgeOverlay, "Grass Edge Overlay", true, 1, BiomeType.Grassland),
                 Create((byte)TileId.RockLarge, "Large Rock", false, 255, BiomeType.Grassland),
                 Create((byte)TileId.RuinFloor, "Ruin Floor", true, 100, BiomeType.Ruins),
                 Create((byte)TileId.OldWall, "Old Wall", false, 255, BiomeType.Ruins, blocksVision: true),

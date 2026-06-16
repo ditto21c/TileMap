@@ -113,8 +113,7 @@ namespace TileMap.Movement
                     continue;
                 }
 
-                var tileDef = worldTileMap.TileDatabase.Get(worldTileMap.GetTile(next.x, next.y));
-                int moveCost = tileDef != null ? Mathf.Max(tileDef.moveCost, (byte)1) : 100;
+                int moveCost = worldTileMap.GetMoveCost(next.x, next.y);
                 int tentativeG = gScore[current] + moveCost;
                 if (gScore.TryGetValue(next, out int existingG) && tentativeG >= existingG)
                 {

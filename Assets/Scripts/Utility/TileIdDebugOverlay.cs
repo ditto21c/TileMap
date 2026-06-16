@@ -66,8 +66,9 @@ namespace TileMap.Utility
                         continue;
                     }
 
-                    byte tileId = worldTileMap.GetTile(x, y);
-                    if (tileId == (byte)TileId.Void)
+                    byte groundTileId = worldTileMap.GetGroundTile(x, y);
+                    byte overlayTileId = worldTileMap.GetOverlayTile(x, y);
+                    if (groundTileId == (byte)TileId.Void && overlayTileId == (byte)TileId.Void)
                     {
                         continue;
                     }
@@ -78,8 +79,8 @@ namespace TileMap.Utility
                         continue;
                     }
 
-                    Rect labelRect = new Rect(screen.x - 22f, Screen.height - screen.y - 11f, 44f, 22f);
-                    string label = tileId.ToString();
+                    Rect labelRect = new Rect(screen.x - 34f, Screen.height - screen.y - 11f, 68f, 22f);
+                    string label = FormatTileLabel(groundTileId, overlayTileId);
                     GUI.Label(Offset(labelRect, 1f, 1f), label, shadowStyle);
                     GUI.Label(labelRect, label, labelStyle);
                 }
@@ -102,12 +103,29 @@ namespace TileMap.Utility
                 return;
             }
 
-            byte tileId = worldTileMap.GetTile(cell.x, cell.y);
-            string tileName = ((TileId)tileId).ToString();
+            byte groundTileId = worldTileMap.GetGroundTile(cell.x, cell.y);
+            byte overlayTileId = worldTileMap.GetOverlayTile(cell.x, cell.y);
+            string groundTileName = ((TileId)groundTileId).ToString();
+            string overlayTileName = overlayTileId != (byte)TileId.Void ? ((TileId)overlayTileId).ToString() : "None";
             GUI.Label(
                 new Rect(12f, 12f, 520f, 24f),
-                $"F3 TileId Overlay ON | Cell ({cell.x}, {cell.y}) | TileId {tileId} : {tileName}",
+                $"F3 TileId Overlay ON | Cell ({cell.x}, {cell.y}) | Ground {groundTileId}:{groundTileName} | Overlay {overlayTileId}:{overlayTileName}",
                 panelStyle);
+        }
+
+        private static string FormatTileLabel(byte groundTileId, byte overlayTileId)
+        {
+            if (overlayTileId == (byte)TileId.Void)
+            {
+                return groundTileId.ToString();
+            }
+
+            if (groundTileId == (byte)TileId.Void)
+            {
+                return "+" + overlayTileId;
+            }
+
+            return groundTileId + "+" + overlayTileId;
         }
 
         private void GetVisibleCellBounds(out int xMin, out int xMax, out int yMin, out int yMax)

@@ -18,6 +18,7 @@ namespace TileMap.Data
         DirtA = 19, // 흙 바닥.
         RoadA = 21, // 도로 / 길.
         TallGrass = 24, // 키 큰 풀.
+        GrassEdgeOverlay = 25, // 초원과 다른 바닥이 맞닿는 경계에 자동 배치되는 시각 전용 풀 가장자리 오버레이.
         RockLarge = 28, // 큰 바위. 기본 설정에서는 이동 불가.
         RuinFloor = 32, // 폐허 바닥.
         OldWall = 35, // 오래된 벽. 기본 설정에서는 이동 및 시야 차단.
