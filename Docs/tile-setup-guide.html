@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TileMap 타일 세팅 가이드</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Malgun Gothic", sans-serif;
+      line-height: 1.6;
+      color: #222;
+      background: #f6f7f9;
+    }
+
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+      background: #fff;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.25;
+      margin: 28px 0 12px;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 30px;
+    }
+
+    h2 {
+      padding-top: 16px;
+      border-top: 1px solid #ddd;
+      font-size: 22px;
+    }
+
+    code, pre {
+      font-family: Consolas, monospace;
+      background: #f0f2f4;
+    }
+
+    code {
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    pre {
+      overflow-x: auto;
+      padding: 14px;
+      border-radius: 6px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 20px;
+    }
+
+    th, td {
+      border: 1px solid #d7dbe0;
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef1f5;
+    }
+
+    .note {
+      border-left: 4px solid #2f6fed;
+      background: #eef5ff;
+      padding: 10px 14px;
+      margin: 14px 0;
+    }
+
+    .mask-grid {
+      display: inline-grid;
+      grid-template-columns: repeat(3, 56px);
+      gap: 4px;
+      margin: 8px 0;
+      text-align: center;
+      font-family: Consolas, monospace;
+    }
+
+    .mask-grid span {
+      padding: 10px 0;
+      background: #eef1f5;
+      border: 1px solid #ccd2d8;
+      border-radius: 4px;
+    }
+
+    .mask-grid .center {
+      background: #ffe66b;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>TileMap 타일 세팅 가이드</h1>
+  <p>
+    이 문서는 현재 프로젝트의 직접 구현된 8방향 bitmask auto tile 렌더러를 사용하기 위해
+    Unity에서 준비해야 할 데이터 작업을 정리한 가이드입니다.
+  </p>
+
+  <h2>1. 준비할 에셋</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>에셋</th>
+        <th>역할</th>
+        <th>예시 경로</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Tile Asset</td>
+        <td>실제로 화면에 그려질 Unity Tile 또는 TileBase</td>
+        <td><code>Assets/Tiles/Water/Water_255.asset</code></td>
+      </tr>
+      <tr>
+        <td>Auto Tile Set</td>
+        <td>하나의 <code>TileId</code>가 mask별로 어떤 Tile을 쓸지 정의</td>
+        <td><code>Assets/Data/AutoTiles/WaterShallowAutoTileSet.asset</code></td>
+      </tr>
+      <tr>
+        <td>Auto Tile Palette</td>
+        <td>여러 Auto Tile Set을 렌더러에 연결하는 팔레트</td>
+        <td><code>Assets/Data/AutoTiles/AutoTilePalette.asset</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>2. Tile Asset 만들기</h2>
+  <ol>
+    <li>스프라이트 시트를 <code>Assets/Tiles</code> 아래에 넣습니다.</li>
+    <li>Sprite Mode를 <code>Multiple</code>로 설정하고 Sprite Editor에서 타일 단위로 자릅니다.</li>
+    <li>잘린 스프라이트를 사용해 Unity Tile asset을 만듭니다.</li>
+    <li>물, 벽, 길처럼 연결 모양이 필요한 타일은 mask별 Tile asset을 준비합니다.</li>
+  </ol>
+
+  <div class="note">
+    처음부터 256개를 모두 채울 필요는 없습니다. <code>Fallback Tile</code>을 지정한 뒤,
+    자주 보이는 mask부터 단계적으로 채우면 됩니다.
+  </div>
+
+  <h2>3. Auto Tile Set 만들기</h2>
+  <ol>
+    <li>Project 창에서 우클릭합니다.</li>
+    <li><code>Create &gt; Tools &gt; World &gt; Auto Tile Set</code>을 선택합니다.</li>
+    <li><code>Tile Id</code>에 대상 타일을 고릅니다. 예: <code>WaterShallow</code>.</li>
+    <li><code>Fallback Tile</code>에 기본 표시용 Tile을 넣습니다.</li>
+    <li><code>Tiles By Mask</code> 배열의 인덱스에 mask별 Tile을 넣습니다.</li>
+  </ol>
+
+  <h2>4. 8방향 Bitmask 규칙</h2>
+  <p>현재 타일 <code>X</code> 기준으로 주변 8칸을 검사합니다.</p>
+
+  <div class="mask-grid" aria-label="8방향 bitmask 값">
+    <span>128</span>
+    <span>1</span>
+    <span>2</span>
+    <span>64</span>
+    <span class="center">X</span>
+    <span>4</span>
+    <span>32</span>
+    <span>16</span>
+    <span>8</span>
+  </div>
+
+  <p>
+    같은 auto tile 그룹으로 연결되는 방향의 값을 더한 숫자가 <code>Tiles By Mask</code>의 인덱스입니다.
+  </p>
+
+  <pre><code>위 + 오른쪽 + 아래 + 왼쪽
+= 1 + 4 + 16 + 64
+= 85</code></pre>
+
+  <p>
+    대각선은 양쪽 직교 방향이 모두 연결된 경우에만 인정됩니다.
+    예를 들어 오른쪽 위 대각선은 위, 오른쪽, 오른쪽 위가 모두 연결될 때만 <code>2</code>가 더해집니다.
+  </p>
+
+  <h2>5. Connects To 설정</h2>
+  <p>
+    서로 다른 <code>TileId</code>가 같은 덩어리처럼 이어져야 한다면 <code>Connects To</code>에 추가합니다.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Auto Tile Set</th>
+        <th>Connects To 예시</th>
+        <th>의미</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>WaterShallow</code></td>
+        <td><code>WaterDeep</code>, <code>SwampShallow</code></td>
+        <td>얕은 물이 깊은 물/늪과 이어져 보임</td>
+      </tr>
+      <tr>
+        <td><code>RoadA</code></td>
+        <td>없음</td>
+        <td>같은 길 타일끼리만 이어짐</td>
+      </tr>
+      <tr>
+        <td><code>OldWall</code></td>
+        <td><code>RockLarge</code></td>
+        <td>벽과 큰 바위가 같은 장애물 덩어리처럼 이어짐</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>6. Auto Tile Palette 만들기</h2>
+  <ol>
+    <li><code>Create &gt; Tools &gt; World &gt; Auto Tile Palette</code>를 선택합니다.</li>
+    <li><code>Tile Sets</code> 배열에 만든 Auto Tile Set들을 추가합니다.</li>
+    <li>예: <code>WaterShallowAutoTileSet</code>, <code>RoadAAutoTileSet</code>, <code>OldWallAutoTileSet</code>.</li>
+  </ol>
+
+  <h2>7. 씬에 연결하기</h2>
+  <ol>
+    <li>씬에서 <code>SampleSceneBootstrap</code> 컴포넌트가 붙은 오브젝트를 선택합니다.</li>
+    <li><code>Auto Tile Palette</code> 필드에 만든 팔레트 에셋을 드래그합니다.</li>
+    <li>Play를 실행해서 타일 연결 모양을 확인합니다.</li>
+  </ol>
+
+  <h2>8. 확인할 것</h2>
+  <ul>
+    <li>타일이 분홍색으로 나오면 해당 mask의 Tile asset이 없고 fallback도 없는 상태입니다.</li>
+    <li>모서리가 이상하면 대각선 mask에 들어간 Tile asset을 확인합니다.</li>
+    <li>원하는 타일끼리 이어지지 않으면 <code>Connects To</code> 설정을 확인합니다.</li>
+    <li>Auto Tile Set을 연결하지 않은 <code>TileId</code>는 기존 디버그 색상 타일로 표시됩니다.</li>
+  </ul>
+</main>
+</body>
+</html>

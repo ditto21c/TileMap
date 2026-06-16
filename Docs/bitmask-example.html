@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>8방향 Bitmask 그림 예시</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Malgun Gothic", sans-serif;
+      color: #222;
+      background: #f4f6f8;
+      line-height: 1.6;
+    }
+
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+      background: #fff;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+    }
+
+    h2 {
+      margin-top: 34px;
+      padding-top: 18px;
+      border-top: 1px solid #d9dde3;
+      font-size: 22px;
+    }
+
+    code {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: #eef1f4;
+      font-family: Consolas, monospace;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 28px;
+      align-items: start;
+      margin: 18px 0 30px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 76px);
+      grid-template-rows: repeat(3, 76px);
+      gap: 6px;
+      width: max-content;
+    }
+
+    .cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #c8ced6;
+      border-radius: 8px;
+      background: #f2f4f7;
+      font-family: Consolas, monospace;
+      font-weight: 700;
+    }
+
+    .cell small {
+      margin-top: 2px;
+      font-size: 11px;
+      font-weight: 400;
+      color: #56606b;
+    }
+
+    .center {
+      background: #ffd84d;
+      border-color: #d7a900;
+      color: #222;
+    }
+
+    .on {
+      background: #4f9f5f;
+      border-color: #2c7d3a;
+      color: #fff;
+    }
+
+    .off {
+      color: #9aa2ad;
+      opacity: 0.55;
+    }
+
+    .diag-blocked {
+      background: #fff5dc;
+      border-color: #e0b85a;
+      color: #8a6200;
+    }
+
+    .formula {
+      margin: 10px 0;
+      padding: 14px 16px;
+      border-left: 4px solid #2f6fed;
+      background: #eef5ff;
+      font-family: Consolas, monospace;
+      font-size: 16px;
+    }
+
+    .tile-preview {
+      display: inline-grid;
+      grid-template-columns: repeat(3, 42px);
+      grid-template-rows: repeat(3, 42px);
+      gap: 3px;
+      margin: 8px 0;
+      vertical-align: middle;
+    }
+
+    .tile-preview span {
+      border-radius: 4px;
+      background: #d9dee5;
+      border: 1px solid #c6ccd4;
+    }
+
+    .tile-preview .filled {
+      background: #4f9f5f;
+      border-color: #2c7d3a;
+    }
+
+    .tile-preview .focus {
+      background: #ffd84d;
+      border-color: #d7a900;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+
+    th, td {
+      border: 1px solid #d6dbe2;
+      padding: 9px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef1f5;
+    }
+
+    .note {
+      padding: 12px 14px;
+      background: #fff8e8;
+      border-left: 4px solid #dba52b;
+      margin: 18px 0;
+    }
+
+    @media (max-width: 760px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>8방향 Bitmask 그림 예시</h1>
+  <p>
+    현재 타일 <code>X</code> 주변 8칸을 검사해서 연결된 방향의 숫자를 더합니다.
+    그 합계가 <code>Tiles By Mask</code> 배열의 인덱스입니다.
+  </p>
+
+  <h2>방향별 값</h2>
+  <div class="row">
+    <div class="grid" aria-label="8방향 bitmask 값">
+      <div class="cell">128<small>Up Left</small></div>
+      <div class="cell">1<small>Up</small></div>
+      <div class="cell">2<small>Up Right</small></div>
+      <div class="cell">64<small>Left</small></div>
+      <div class="cell center">X<small>Current</small></div>
+      <div class="cell">4<small>Right</small></div>
+      <div class="cell">32<small>Down Left</small></div>
+      <div class="cell">16<small>Down</small></div>
+      <div class="cell">8<small>Down Right</small></div>
+    </div>
+
+    <div>
+      <p>
+        예를 들어 위쪽 타일이 같은 그룹이면 <code>1</code>을 더하고,
+        오른쪽 타일이 같은 그룹이면 <code>4</code>를 더합니다.
+      </p>
+      <p>
+        최종 mask가 <code>85</code>라면 Unity Inspector의
+        <code>Tiles By Mask</code> 배열에서 <code>Element 85</code>에 해당 Tile asset을 넣으면 됩니다.
+      </p>
+    </div>
+  </div>
+
+  <h2>예시 1: 십자 연결</h2>
+  <div class="row">
+    <div class="grid" aria-label="십자 연결 예시">
+      <div class="cell off">128</div>
+      <div class="cell on">1</div>
+      <div class="cell off">2</div>
+      <div class="cell on">64</div>
+      <div class="cell center">X</div>
+      <div class="cell on">4</div>
+      <div class="cell off">32</div>
+      <div class="cell on">16</div>
+      <div class="cell off">8</div>
+    </div>
+
+    <div>
+      <div class="formula">1 + 4 + 16 + 64 = 85</div>
+      <p><code>Tiles By Mask[85]</code>에 십자형으로 연결된 Tile asset을 넣습니다.</p>
+      <div class="tile-preview" aria-label="십자형 타일 미리보기">
+        <span></span><span class="filled"></span><span></span>
+        <span class="filled"></span><span class="focus"></span><span class="filled"></span>
+        <span></span><span class="filled"></span><span></span>
+      </div>
+    </div>
+  </div>
+
+  <h2>예시 2: 오른쪽과 아래만 연결</h2>
+  <div class="row">
+    <div class="grid" aria-label="오른쪽 아래 연결 예시">
+      <div class="cell off">128</div>
+      <div class="cell off">1</div>
+      <div class="cell off">2</div>
+      <div class="cell off">64</div>
+      <div class="cell center">X</div>
+      <div class="cell on">4</div>
+      <div class="cell off">32</div>
+      <div class="cell on">16</div>
+      <div class="cell off">8</div>
+    </div>
+
+    <div>
+      <div class="formula">4 + 16 = 20</div>
+      <p><code>Tiles By Mask[20]</code>에 오른쪽과 아래가 이어지는 코너 Tile asset을 넣습니다.</p>
+      <div class="tile-preview" aria-label="오른쪽 아래 코너 타일 미리보기">
+        <span></span><span></span><span></span>
+        <span></span><span class="focus"></span><span class="filled"></span>
+        <span></span><span class="filled"></span><span></span>
+      </div>
+    </div>
+  </div>
+
+  <h2>예시 3: 모든 방향 연결</h2>
+  <div class="row">
+    <div class="grid" aria-label="모든 방향 연결 예시">
+      <div class="cell on">128</div>
+      <div class="cell on">1</div>
+      <div class="cell on">2</div>
+      <div class="cell on">64</div>
+      <div class="cell center">X</div>
+      <div class="cell on">4</div>
+      <div class="cell on">32</div>
+      <div class="cell on">16</div>
+      <div class="cell on">8</div>
+    </div>
+
+    <div>
+      <div class="formula">1 + 2 + 4 + 8 + 16 + 32 + 64 + 128 = 255</div>
+      <p><code>Tiles By Mask[255]</code>에는 사방이 꽉 찬 중앙 Tile asset을 넣습니다.</p>
+      <div class="tile-preview" aria-label="전체 연결 타일 미리보기">
+        <span class="filled"></span><span class="filled"></span><span class="filled"></span>
+        <span class="filled"></span><span class="focus"></span><span class="filled"></span>
+        <span class="filled"></span><span class="filled"></span><span class="filled"></span>
+      </div>
+    </div>
+  </div>
+
+  <h2>대각선 처리 규칙</h2>
+  <p>
+    대각선은 그냥 같은 타일이라고 바로 연결하지 않습니다. 양쪽 직교 방향이 모두 연결되어야 합니다.
+    그래야 모서리 모양이 깨지지 않습니다.
+  </p>
+
+  <div class="row">
+    <div class="grid" aria-label="대각선 차단 예시">
+      <div class="cell off">128</div>
+      <div class="cell off">1</div>
+      <div class="cell diag-blocked">2</div>
+      <div class="cell off">64</div>
+      <div class="cell center">X</div>
+      <div class="cell on">4</div>
+      <div class="cell off">32</div>
+      <div class="cell off">16</div>
+      <div class="cell off">8</div>
+    </div>
+
+    <div>
+      <div class="formula">오른쪽 위 타일이 같아도, 위쪽이 연결되지 않으면 2는 더하지 않음</div>
+      <p>
+        <code>UpRight</code>는 <code>Up</code>과 <code>Right</code>가 둘 다 연결되어 있을 때만 인정합니다.
+        이 예시는 오른쪽만 연결되어 있으므로 mask는 <code>4</code>입니다.
+      </p>
+    </div>
+  </div>
+
+  <h2>자주 쓰는 Mask 예시</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>연결 방향</th>
+        <th>계산</th>
+        <th>배열 위치</th>
+        <th>넣을 타일 모양</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>연결 없음</td>
+        <td><code>0</code></td>
+        <td><code>Tiles By Mask[0]</code></td>
+        <td>혼자 떨어진 섬/기둥 모양</td>
+      </tr>
+      <tr>
+        <td>위 + 아래</td>
+        <td><code>1 + 16 = 17</code></td>
+        <td><code>Tiles By Mask[17]</code></td>
+        <td>세로 직선</td>
+      </tr>
+      <tr>
+        <td>왼쪽 + 오른쪽</td>
+        <td><code>64 + 4 = 68</code></td>
+        <td><code>Tiles By Mask[68]</code></td>
+        <td>가로 직선</td>
+      </tr>
+      <tr>
+        <td>위 + 오른쪽</td>
+        <td><code>1 + 4 = 5</code></td>
+        <td><code>Tiles By Mask[5]</code></td>
+        <td>코너</td>
+      </tr>
+      <tr>
+        <td>위 + 오른쪽 + 아래 + 왼쪽</td>
+        <td><code>1 + 4 + 16 + 64 = 85</code></td>
+        <td><code>Tiles By Mask[85]</code></td>
+        <td>십자 연결</td>
+      </tr>
+      <tr>
+        <td>모든 방향</td>
+        <td><code>255</code></td>
+        <td><code>Tiles By Mask[255]</code></td>
+        <td>중앙/내부 타일</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    실제 작업에서는 모든 mask를 처음부터 채우지 말고, <code>Fallback Tile</code>을 먼저 넣은 뒤
+    게임 화면에서 자주 보이는 mask부터 하나씩 채우는 방식이 빠릅니다.
+  </div>
+</main>
+</body>
+</html>

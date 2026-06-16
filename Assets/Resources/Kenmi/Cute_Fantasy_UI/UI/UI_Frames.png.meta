@@ -1,0 +1,1281 @@
+fileFormatVersion: 2
+guid: 328d77ec761e28e44b3cd5c88892daf6
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5032990790905509716
+    second: UI_Frames_0
+  - first:
+      213: -6679953284920075913
+    second: UI_Frames_1
+  - first:
+      213: 3346837577694019691
+    second: UI_Frames_2
+  - first:
+      213: -8791061684223605669
+    second: UI_Frames_3
+  - first:
+      213: -7374546139589807423
+    second: UI_Frames_4
+  - first:
+      213: 6494682971960736090
+    second: UI_Frames_5
+  - first:
+      213: 492313034574852574
+    second: UI_Frames_6
+  - first:
+      213: 6316763320169654456
+    second: UI_Frames_7
+  - first:
+      213: 1420900625701767438
+    second: UI_Frames_8
+  - first:
+      213: -3457276847671156071
+    second: UI_Frames_9
+  - first:
+      213: 5745178936549529749
+    second: UI_Frames_10
+  - first:
+      213: 3224011000309181488
+    second: UI_Frames_11
+  - first:
+      213: 7764871120084573160
+    second: UI_Frames_12
+  - first:
+      213: -912385335382948652
+    second: UI_Frames_13
+  - first:
+      213: 239788920320451221
+    second: UI_Frames_14
+  - first:
+      213: 8543167340527907790
+    second: UI_Frames_15
+  - first:
+      213: -6474153178337083997
+    second: UI_Frames_16
+  - first:
+      213: 7962500669415199613
+    second: UI_Frames_17
+  - first:
+      213: 6807654065617630088
+    second: UI_Frames_18
+  - first:
+      213: 8916156736367152456
+    second: UI_Frames_19
+  - first:
+      213: 3193305353492422719
+    second: UI_Frames_20
+  - first:
+      213: -6268959639627834742
+    second: UI_Frames_21
+  - first:
+      213: -7294562437934596049
+    second: UI_Frames_22
+  - first:
+      213: -4494089286520263261
+    second: UI_Frames_23
+  - first:
+      213: -5538786102408219600
+    second: UI_Frames_24
+  - first:
+      213: 7403275337164292035
+    second: UI_Frames_25
+  - first:
+      213: 4217360460279350358
+    second: UI_Frames_26
+  - first:
+      213: 6335639439142341042
+    second: UI_Frames_27
+  - first:
+      213: -5429969506974036531
+    second: UI_Frames_28
+  - first:
+      213: 659292010966459433
+    second: UI_Frames_29
+  - first:
+      213: 6971436814502994580
+    second: UI_Frames_30
+  - first:
+      213: 2932290674022151228
+    second: UI_Frames_31
+  - first:
+      213: 4974960791083496936
+    second: UI_Frames_32
+  - first:
+      213: -5532147853192409012
+    second: UI_Frames_33
+  - first:
+      213: -1831708351073315004
+    second: UI_Frames_34
+  - first:
+      213: 1847751431490721910
+    second: UI_Frames_35
+  - first:
+      213: 3245360557532844980
+    second: UI_Frames_36
+  - first:
+      213: 5657767099024857698
+    second: UI_Frames_37
+  - first:
+      213: -3822310158978894
+    second: UI_Frames_38
+  - first:
+      213: -3836660203176648350
+    second: UI_Frames_39
+  - first:
+      213: -5546243402762747644
+    second: UI_Frames_40
+  - first:
+      213: 770011035384309856
+    second: UI_Frames_41
+  - first:
+      213: 8762203232411570455
+    second: UI_Frames_42
+  - first:
+      213: -5623085508619394884
+    second: UI_Frames_43
+  - first:
+      213: -3372318329558203677
+    second: UI_Frames_44
+  - first:
+      213: 2180520743783210089
+    second: UI_Frames_45
+  - first:
+      213: -7628132938726285974
+    second: UI_Frames_46
+  - first:
+      213: 986614116082186522
+    second: UI_Frames_47
+  - first:
+      213: -7895848247258427250
+    second: UI_Frames_48
+  - first:
+      213: 2230136644718699658
+    second: UI_Frames_49
+  - first:
+      213: -6996722935838974566
+    second: UI_Frames_50
+  - first:
+      213: 7373075451810273455
+    second: UI_Frames_51
+  - first:
+      213: -7234728738643924892
+    second: UI_Frames_52
+  - first:
+      213: -3257158074293972670
+    second: UI_Frames_53
+  - first:
+      213: 6992293394419260703
+    second: UI_Frames_54
+  - first:
+      213: 7836469352219440535
+    second: UI_Frames_55
+  - first:
+      213: 1582159914694783194
+    second: UI_Frames_56
+  - first:
+      213: 1788483221854325567
+    second: UI_Frames_57
+  - first:
+      213: 7258311351939213208
+    second: UI_Frames_58
+  - first:
+      213: 2560365264813523575
+    second: UI_Frames_59
+  - first:
+      213: 5748417219599085857
+    second: UI_Frames_60
+  - first:
+      213: 7039501138929741711
+    second: UI_Frames_61
+  - first:
+      213: 4042213858115537371
+    second: UI_Frames_62
+  - first:
+      213: -5308932434027025928
+    second: UI_Frames_63
+  - first:
+      213: -2741656958123976396
+    second: UI_Frames_64
+  - first:
+      213: 2425514868310693028
+    second: UI_Frames_65
+  - first:
+      213: -8155228642776410536
+    second: UI_Frames_66
+  - first:
+      213: 838924141036696117
+    second: UI_Frames_67
+  - first:
+      213: 2633443317372593734
+    second: UI_Frames_68
+  - first:
+      213: 3159800398769972533
+    second: UI_Frames_69
+  - first:
+      213: 831697482188546519
+    second: UI_Frames_70
+  - first:
+      213: -6337076073812139727
+    second: UI_Frames_71
+  - first:
+      213: -4767208699233717243
+    second: UI_Frames_72
+  - first:
+      213: -9166657274595520069
+    second: UI_Frames_73
+  - first:
+      213: 7760850217813207502
+    second: UI_Frames_74
+  - first:
+      213: 9119492072815381742
+    second: UI_Frames_75
+  - first:
+      213: -1342900873888885945
+    second: UI_Frames_76
+  - first:
+      213: -1918949487499955326
+    second: UI_Frames_77
+  - first:
+      213: -3867755018195069251
+    second: UI_Frames_78
+  - first:
+      213: 6829521313644273285
+    second: UI_Frames_79
+  - first:
+      213: -3041420231327014835
+    second: UI_Frames_80
+  - first:
+      213: -752641587287109348
+    second: UI_Frames_81
+  - first:
+      213: 2803180070605551524
+    second: UI_Frames_82
+  - first:
+      213: 3019810172005399575
+    second: UI_Frames_83
+  - first:
+      213: -4829530896969630599
+    second: UI_Frames_84
+  - first:
+      213: -4041160970676571085
+    second: UI_Frames_85
+  - first:
+      213: -2406651759134629143
+    second: UI_Frames_86
+  - first:
+      213: 3336909774928478212
+    second: UI_Frames_87
+  - first:
+      213: 2961027564726528697
+    second: UI_Frames_88
+  - first:
+      213: -7857906530472850534
+    second: UI_Frames_89
+  - first:
+      213: -996788442478048176
+    second: UI_Frames_90
+  - first:
+      213: -5833473654994782102
+    second: UI_Frames_91
+  - first:
+      213: 235721238364280737
+    second: UI_Frames_92
+  - first:
+      213: -3061259229481982865
+    second: UI_Frames_93
+  - first:
+      213: 8468562745095475239
+    second: UI_Frames_94
+  - first:
+      213: -4350057337258622788
+    second: UI_Frames_95
+  - first:
+      213: -4944723276771808069
+    second: UI_Frames_96
+  - first:
+      213: 6163187661049983450
+    second: UI_Frames_97
+  - first:
+      213: -6093871447208261277
+    second: UI_Frames_98
+  - first:
+      213: 6860347834909238347
+    second: UI_Frames_99
+  - first:
+      213: -772790486528575992
+    second: UI_Frames_100
+  - first:
+      213: 175706986078511088
+    second: UI_Frames_101
+  - first:
+      213: -1934784551225393022
+    second: UI_Frames_102
+  - first:
+      213: -6681553427038221219
+    second: UI_Frames_103
+  - first:
+      213: -7286856953744396992
+    second: UI_Frames_104
+  - first:
+      213: -3232352536836539210
+    second: UI_Frames_105
+  - first:
+      213: -2859227310854280794
+    second: UI_Frames_106
+  - first:
+      213: -4082212945960972427
+    second: UI_Frames_107
+  - first:
+      213: -6808829750946023797
+    second: UI_Frames_108
+  - first:
+      213: -4892333346037563417
+    second: UI_Frames_109
+  - first:
+      213: -2372490600954353999
+    second: UI_Frames_110
+  - first:
+      213: 8413717415151037039
+    second: UI_Frames_111
+  - first:
+      213: -7311229056678572314
+    second: UI_Frames_112
+  - first:
+      213: -1688905371566923223
+    second: UI_Frames_113
+  - first:
+      213: 3214956477345489655
+    second: UI_Frames_114
+  - first:
+      213: 946954812531366653
+    second: UI_Frames_115
+  - first:
+      213: -5092213530763355905
+    second: UI_Frames_116
+  - first:
+      213: -5759770865707681479
+    second: UI_Frames_117
+  - first:
+      213: -7749663210003940781
+    second: UI_Frames_118
+  - first:
+      213: 1324240045465583198
+    second: UI_Frames_119
+  - first:
+      213: 3693734249781777686
+    second: UI_Frames_120
+  - first:
+      213: -5913228701505630723
+    second: UI_Frames_121
+  - first:
+      213: -7540759225711546492
+    second: UI_Frames_122
+  - first:
+      213: 872654754793846803
+    second: UI_Frames_123
+  - first:
+      213: 2868244326391925285
+    second: UI_Frames_124
+  - first:
+      213: 6094437654193772820
+    second: UI_Frames_125
+  - first:
+      213: -2116917511236761461
+    second: UI_Frames_126
+  - first:
+      213: -6050232579359761117
+    second: UI_Frames_127
+  - first:
+      213: 7754705085525218122
+    second: UI_Frames_128
+  - first:
+      213: 6891099427793127616
+    second: UI_Frames_129
+  - first:
+      213: 1753851766359716252
+    second: UI_Frames_130
+  - first:
+      213: -926796325687767464
+    second: UI_Frames_131
+  - first:
+      213: 3415726030481267503
+    second: UI_Frames_132
+  - first:
+      213: 7920896411887952401
+    second: UI_Frames_133
+  - first:
+      213: -7699881786466620807
+    second: UI_Frames_134
+  - first:
+      213: -7681148298258470405
+    second: UI_Frames_135
+  - first:
+      213: -8572756360146594287
+    second: UI_Frames_136
+  - first:
+      213: 5138763741453141425
+    second: UI_Frames_137
+  - first:
+      213: 912189131999084731
+    second: UI_Frames_138
+  - first:
+      213: 4241600081500010063
+    second: UI_Frames_139
+  - first:
+      213: -4347413941648898291
+    second: UI_Frames_140
+  - first:
+      213: 3425816610238163452
+    second: UI_Frames_141
+  - first:
+      213: -5264294772885578566
+    second: UI_Frames_142
+  - first:
+      213: 633116416697487408
+    second: UI_Frames_143
+  - first:
+      213: -4465998103003852461
+    second: UI_Frames_144
+  - first:
+      213: 3584523789392080700
+    second: UI_Frames_145
+  - first:
+      213: -1457007611799559955
+    second: UI_Frames_146
+  - first:
+      213: 7228489744306176985
+    second: UI_Frames_147
+  - first:
+      213: 759232104146527040
+    second: UI_Frames_148
+  - first:
+      213: 9001747023637057571
+    second: UI_Frames_149
+  - first:
+      213: -6661909741964357291
+    second: UI_Frames_150
+  - first:
+      213: 7205668450967418959
+    second: UI_Frames_151
+  - first:
+      213: -3871497001693518378
+    second: UI_Frames_152
+  - first:
+      213: 5307795806246655200
+    second: UI_Frames_153
+  - first:
+      213: -6249209985643963864
+    second: UI_Frames_154
+  - first:
+      213: 5616057607115551097
+    second: UI_Frames_155
+  - first:
+      213: 2238506333718338464
+    second: UI_Frames_156
+  - first:
+      213: 208769741703500558
+    second: UI_Frames_157
+  - first:
+      213: 7293225904342480949
+    second: UI_Frames_158
+  - first:
+      213: 6209533823657264768
+    second: UI_Frames_159
+  - first:
+      213: -2167446491992693436
+    second: UI_Frames_160
+  - first:
+      213: 7660266458230566477
+    second: UI_Frames_161
+  - first:
+      213: -5348205095638864159
+    second: UI_Frames_162
+  - first:
+      213: -3427332674731606908
+    second: UI_Frames_163
+  - first:
+      213: 2544392957169658778
+    second: UI_Frames_164
+  - first:
+      213: 6109132898464139336
+    second: UI_Frames_165
+  - first:
+      213: 2079801350203878884
+    second: UI_Frames_166
+  - first:
+      213: 4001107297560899787
+    second: UI_Frames_167
+  - first:
+      213: -8595928437238536501
+    second: UI_Frames_168
+  - first:
+      213: -1701125775623594716
+    second: UI_Frames_169
+  - first:
+      213: -648724517545027701
+    second: UI_Frames_170
+  - first:
+      213: 1003465161187490946
+    second: UI_Frames_171
+  - first:
+      213: -7524706827349103646
+    second: UI_Frames_172
+  - first:
+      213: -7454784659491075855
+    second: UI_Frames_173
+  - first:
+      213: -4190897528905300781
+    second: UI_Frames_174
+  - first:
+      213: -2431314366190589069
+    second: UI_Frames_175
+  - first:
+      213: -1236197893450786948
+    second: UI_Frames_176
+  - first:
+      213: 6538002398064021508
+    second: UI_Frames_177
+  - first:
+      213: -1717701155343580830
+    second: UI_Frames_178
+  - first:
+      213: 6050189434227278501
+    second: UI_Frames_179
+  - first:
+      213: -3548932762741230660
+    second: UI_Frames_180
+  - first:
+      213: -3281084045214330762
+    second: UI_Frames_181
+  - first:
+      213: 3817341849246157413
+    second: UI_Frames_182
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: UIBG_01
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 295
+        width: 28
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 10, y: 10, z: 10, w: 10}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4573cb95576c8d540800000000000000
+      internalID: 5032990790905509716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIBG_02
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 295
+        width: 28
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 10, y: 10, z: 10, w: 10}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c2750aab5958a990800000000000000
+      internalID: -7374546139589807423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIBTN_01
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 298
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 10, y: 10, z: 10, w: 10}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 992e06446094500d0800000000000000
+      internalID: -3457276847671156071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIBTN_02
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 298
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 10, y: 10, z: 10, w: 10}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8eb9457c42d52cb60800000000000000
+      internalID: 7764871120084573160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIBorder_01
+      rect:
+        serializedVersion: 2
+        x: 681
+        y: 294
+        width: 30
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 10, y: 10, z: 10, w: 10}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59266c8a0c6e35300800000000000000
+      internalID: 239788920320451221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIBorderFrame_01
+      rect:
+        serializedVersion: 2
+        x: 915
+        y: 291
+        width: 42
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 20, y: 20, z: 20, w: 20}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84dced8df4d8cbb70800000000000000
+      internalID: 8916156736367152456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIBorderFrame_02
+      rect:
+        serializedVersion: 2
+        x: 963
+        y: 290
+        width: 42
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 20, y: 20, z: 20, w: 20}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f30e446dc46e05c20800000000000000
+      internalID: 3193305353492422719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIBGCorner_01
+      rect:
+        serializedVersion: 2
+        x: 1021
+        y: 301
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 5, y: 5, z: 5, w: 5}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8ad8b01c6e2009a0800000000000000
+      internalID: -6268959639627834742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIBGCorner_02
+      rect:
+        serializedVersion: 2
+        x: 1067
+        y: 299
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 5, y: 5, z: 5, w: 5}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2040076c1284ca90800000000000000
+      internalID: -7294562437934596049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIBGCorner_03
+      rect:
+        serializedVersion: 2
+        x: 1112
+        y: 296
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 10, y: 10, z: 10, w: 10}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ad2218ca99c1a1c0800000000000000
+      internalID: -4494089286520263261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIDialogBG_01
+      rect:
+        serializedVersion: 2
+        x: 926
+        y: 250
+        width: 20
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 5, y: 10, z: 5, w: 5}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6d53cff18d632690800000000000000
+      internalID: -7628132938726285974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIDialogBG_02
+      rect:
+        serializedVersion: 2
+        x: 971
+        y: 247
+        width: 26
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 5, y: 10, z: 5, w: 5}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a19f67faf4821bd00800000000000000
+      internalID: 986614116082186522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Frames_121
+      rect:
+        serializedVersion: 2
+        x: 927
+        y: 111
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dfdcc1b53ddffeda0800000000000000
+      internalID: -5913228701505630723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Frames_122
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 111
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48fa6b6df67d95790800000000000000
+      internalID: -7540759225711546492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Frames_123
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 110
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 318fa0f30ea4c1c00800000000000000
+      internalID: 872654754793846803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Frames_124
+      rect:
+        serializedVersion: 2
+        x: 1022
+        y: 110
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52ace9ba40d0ec720800000000000000
+      internalID: 2868244326391925285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Frames_125
+      rect:
+        serializedVersion: 2
+        x: 1054
+        y: 110
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4191cfbb1cac39450800000000000000
+      internalID: 6094437654193772820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Frames_126
+      rect:
+        serializedVersion: 2
+        x: 1086
+        y: 110
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b88cdeb4db23f92e0800000000000000
+      internalID: -2116917511236761461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Frames_127
+      rect:
+        serializedVersion: 2
+        x: 1118
+        y: 110
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32d14ca4681490ca0800000000000000
+      internalID: -6050232579359761117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 4675e135a8a74054286ee8c88859f11f
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      UIBGCorner_01: -6268959639627834742
+      UIBGCorner_02: -7294562437934596049
+      UIBGCorner_03: -4494089286520263261
+      UIBG_01: 5032990790905509716
+      UIBG_02: -7374546139589807423
+      UIBTN_01: -3457276847671156071
+      UIBTN_02: 7764871120084573160
+      UIBorderFrame_01: 8916156736367152456
+      UIBorderFrame_02: 3193305353492422719
+      UIBorder_01: 239788920320451221
+      UIDialogBG_01: -7628132938726285974
+      UIDialogBG_02: 986614116082186522
+      UI_Frames_0: 1279181592
+      UI_Frames_1: -6679953284920075913
+      UI_Frames_10: 5745178936549529749
+      UI_Frames_100: -772790486528575992
+      UI_Frames_101: 175706986078511088
+      UI_Frames_102: -1934784551225393022
+      UI_Frames_103: -6681553427038221219
+      UI_Frames_104: -7286856953744396992
+      UI_Frames_105: -3232352536836539210
+      UI_Frames_106: -2859227310854280794
+      UI_Frames_107: -4082212945960972427
+      UI_Frames_108: -6808829750946023797
+      UI_Frames_109: -4892333346037563417
+      UI_Frames_11: 3224011000309181488
+      UI_Frames_110: -2372490600954353999
+      UI_Frames_111: 8413717415151037039
+      UI_Frames_112: -7311229056678572314
+      UI_Frames_113: -1688905371566923223
+      UI_Frames_114: 3214956477345489655
+      UI_Frames_115: 946954812531366653
+      UI_Frames_116: -5092213530763355905
+      UI_Frames_117: -5759770865707681479
+      UI_Frames_118: -7749663210003940781
+      UI_Frames_119: 1324240045465583198
+      UI_Frames_120: 3693734249781777686
+      UI_Frames_121: -5913228701505630723
+      UI_Frames_122: -7540759225711546492
+      UI_Frames_123: 872654754793846803
+      UI_Frames_124: 2868244326391925285
+      UI_Frames_125: 6094437654193772820
+      UI_Frames_126: -2116917511236761461
+      UI_Frames_127: -6050232579359761117
+      UI_Frames_128: 7754705085525218122
+      UI_Frames_129: 6891099427793127616
+      UI_Frames_13: -912385335382948652
+      UI_Frames_130: 1753851766359716252
+      UI_Frames_131: -926796325687767464
+      UI_Frames_132: 3415726030481267503
+      UI_Frames_133: 7920896411887952401
+      UI_Frames_134: -7699881786466620807
+      UI_Frames_135: -7681148298258470405
+      UI_Frames_136: -8572756360146594287
+      UI_Frames_137: 5138763741453141425
+      UI_Frames_138: 912189131999084731
+      UI_Frames_139: 4241600081500010063
+      UI_Frames_140: -4347413941648898291
+      UI_Frames_141: 3425816610238163452
+      UI_Frames_142: -5264294772885578566
+      UI_Frames_143: 633116416697487408
+      UI_Frames_144: -4465998103003852461
+      UI_Frames_145: 3584523789392080700
+      UI_Frames_146: -1457007611799559955
+      UI_Frames_147: 7228489744306176985
+      UI_Frames_148: 759232104146527040
+      UI_Frames_149: 9001747023637057571
+      UI_Frames_15: 8543167340527907790
+      UI_Frames_150: -6661909741964357291
+      UI_Frames_151: 7205668450967418959
+      UI_Frames_152: -3871497001693518378
+      UI_Frames_153: 5307795806246655200
+      UI_Frames_154: -6249209985643963864
+      UI_Frames_155: 5616057607115551097
+      UI_Frames_156: 2238506333718338464
+      UI_Frames_157: 208769741703500558
+      UI_Frames_158: 7293225904342480949
+      UI_Frames_159: 6209533823657264768
+      UI_Frames_16: -6474153178337083997
+      UI_Frames_160: -2167446491992693436
+      UI_Frames_161: 7660266458230566477
+      UI_Frames_162: -5348205095638864159
+      UI_Frames_163: -3427332674731606908
+      UI_Frames_164: 2544392957169658778
+      UI_Frames_165: 6109132898464139336
+      UI_Frames_166: 2079801350203878884
+      UI_Frames_167: 4001107297560899787
+      UI_Frames_168: -8595928437238536501
+      UI_Frames_169: -1701125775623594716
+      UI_Frames_17: 7962500669415199613
+      UI_Frames_170: -648724517545027701
+      UI_Frames_171: 1003465161187490946
+      UI_Frames_172: -7524706827349103646
+      UI_Frames_173: -7454784659491075855
+      UI_Frames_174: -4190897528905300781
+      UI_Frames_175: -2431314366190589069
+      UI_Frames_176: -1236197893450786948
+      UI_Frames_177: 6538002398064021508
+      UI_Frames_178: -1717701155343580830
+      UI_Frames_179: 6050189434227278501
+      UI_Frames_18: 6807654065617630088
+      UI_Frames_180: -3548932762741230660
+      UI_Frames_181: -3281084045214330762
+      UI_Frames_182: 3817341849246157413
+      UI_Frames_2: 3346837577694019691
+      UI_Frames_24: -5538786102408219600
+      UI_Frames_25: 7403275337164292035
+      UI_Frames_26: 4217360460279350358
+      UI_Frames_27: 6335639439142341042
+      UI_Frames_28: -5429969506974036531
+      UI_Frames_29: 659292010966459433
+      UI_Frames_3: -8791061684223605669
+      UI_Frames_30: 6971436814502994580
+      UI_Frames_31: 2932290674022151228
+      UI_Frames_32: 4974960791083496936
+      UI_Frames_33: -5532147853192409012
+      UI_Frames_34: -1831708351073315004
+      UI_Frames_35: 1847751431490721910
+      UI_Frames_36: 3245360557532844980
+      UI_Frames_37: 5657767099024857698
+      UI_Frames_38: -3822310158978894
+      UI_Frames_39: -3836660203176648350
+      UI_Frames_4: 1579099652
+      UI_Frames_40: -5546243402762747644
+      UI_Frames_41: 770011035384309856
+      UI_Frames_42: 8762203232411570455
+      UI_Frames_44: -3372318329558203677
+      UI_Frames_45: 2180520743783210089
+      UI_Frames_48: -7895848247258427250
+      UI_Frames_49: 2230136644718699658
+      UI_Frames_5: 6494682971960736090
+      UI_Frames_50: -6996722935838974566
+      UI_Frames_51: 7373075451810273455
+      UI_Frames_52: -7234728738643924892
+      UI_Frames_53: -3257158074293972670
+      UI_Frames_54: 6992293394419260703
+      UI_Frames_55: 7836469352219440535
+      UI_Frames_56: 1582159914694783194
+      UI_Frames_57: 1788483221854325567
+      UI_Frames_58: 7258311351939213208
+      UI_Frames_59: 2560365264813523575
+      UI_Frames_6: 492313034574852574
+      UI_Frames_60: 5748417219599085857
+      UI_Frames_61: 7039501138929741711
+      UI_Frames_62: 4042213858115537371
+      UI_Frames_63: -5308932434027025928
+      UI_Frames_64: -2741656958123976396
+      UI_Frames_65: 2425514868310693028
+      UI_Frames_66: -8155228642776410536
+      UI_Frames_67: 838924141036696117
+      UI_Frames_68: 2633443317372593734
+      UI_Frames_69: 3159800398769972533
+      UI_Frames_7: 6316763320169654456
+      UI_Frames_70: 831697482188546519
+      UI_Frames_71: -6337076073812139727
+      UI_Frames_72: -4767208699233717243
+      UI_Frames_73: -9166657274595520069
+      UI_Frames_74: 7760850217813207502
+      UI_Frames_75: 9119492072815381742
+      UI_Frames_76: -1342900873888885945
+      UI_Frames_77: -1918949487499955326
+      UI_Frames_78: -3867755018195069251
+      UI_Frames_79: 6829521313644273285
+      UI_Frames_8: 1420900625701767438
+      UI_Frames_80: -3041420231327014835
+      UI_Frames_81: -752641587287109348
+      UI_Frames_82: 2803180070605551524
+      UI_Frames_83: 3019810172005399575
+      UI_Frames_84: -4829530896969630599
+      UI_Frames_85: -4041160970676571085
+      UI_Frames_86: -2406651759134629143
+      UI_Frames_87: 3336909774928478212
+      UI_Frames_88: 2961027564726528697
+      UI_Frames_89: -7857906530472850534
+      UI_Frames_90: -996788442478048176
+      UI_Frames_91: -5833473654994782102
+      UI_Frames_92: 235721238364280737
+      UI_Frames_93: -3061259229481982865
+      UI_Frames_94: 8468562745095475239
+      UI_Frames_95: -4350057337258622788
+      UI_Frames_96: -4944723276771808069
+      UI_Frames_97: 6163187661049983450
+      UI_Frames_98: -6093871447208261277
+      UI_Frames_99: 6860347834909238347
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>흙 패치 이미지 Auto Tile 등록 예시</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Malgun Gothic", sans-serif;
+      color: #222;
+      background: #f4f6f8;
+      line-height: 1.6;
+    }
+
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+      background: #fff;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+    }
+
+    h2 {
+      margin-top: 34px;
+      padding-top: 18px;
+      border-top: 1px solid #d9dde3;
+      font-size: 22px;
+    }
+
+    code {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: #eef1f4;
+      font-family: Consolas, monospace;
+    }
+
+    .note {
+      padding: 12px 14px;
+      margin: 16px 0;
+      border-left: 4px solid #2f6fed;
+      background: #eef5ff;
+    }
+
+    .warning {
+      padding: 12px 14px;
+      margin: 16px 0;
+      border-left: 4px solid #d19a1d;
+      background: #fff7df;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 310px 1fr;
+      gap: 28px;
+      align-items: start;
+      margin: 18px 0 28px;
+    }
+
+    .tile-sheet {
+      display: grid;
+      grid-template-columns: repeat(3, 86px);
+      grid-template-rows: repeat(3, 86px);
+      gap: 4px;
+      width: max-content;
+      padding: 10px;
+      background: #2e7b45;
+      border-radius: 8px;
+      box-shadow: inset 0 0 0 2px #1e5d33;
+    }
+
+    .piece {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(255, 255, 255, 0.38);
+      background: #e2a867;
+      color: #1f1f1f;
+      font-family: Consolas, monospace;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .piece::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      pointer-events: none;
+      border: 8px solid transparent;
+    }
+
+    .tl::before { border-top-color: #2e7b45; border-left-color: #2e7b45; }
+    .t::before { border-top-color: #2e7b45; }
+    .tr::before { border-top-color: #2e7b45; border-right-color: #2e7b45; }
+    .l::before { border-left-color: #2e7b45; }
+    .r::before { border-right-color: #2e7b45; }
+    .bl::before { border-bottom-color: #2e7b45; border-left-color: #2e7b45; }
+    .b::before { border-bottom-color: #2e7b45; }
+    .br::before { border-bottom-color: #2e7b45; border-right-color: #2e7b45; }
+
+    .piece span {
+      position: relative;
+      z-index: 1;
+      padding: 3px 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.65);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 20px;
+    }
+
+    th, td {
+      border: 1px solid #d6dbe2;
+      padding: 9px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef1f5;
+    }
+
+    .mask-grid {
+      display: inline-grid;
+      grid-template-columns: repeat(3, 58px);
+      gap: 4px;
+      margin: 8px 0;
+      text-align: center;
+      font-family: Consolas, monospace;
+      font-weight: 700;
+    }
+
+    .mask-grid span {
+      padding: 10px 0;
+      background: #eef1f5;
+      border: 1px solid #cbd2db;
+      border-radius: 5px;
+    }
+
+    .mask-grid .center {
+      background: #ffd84d;
+      border-color: #d7a900;
+    }
+
+    ol li {
+      margin: 6px 0;
+    }
+
+    @media (max-width: 780px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>흙 패치 이미지 Auto Tile 등록 예시</h1>
+  <p>
+    이 가이드는 올려준 이미지처럼 풀 배경 위에 흙 패치가 있는 3x3 타일셋을
+    현재 프로젝트의 <code>Tiles By Mask</code>에 어떻게 넣을지 설명합니다.
+  </p>
+
+  <div class="note">
+    기준은 <strong>흙 타일끼리 연결되는 Auto Tile Set</strong>입니다.
+    즉 <code>Tile Id</code>는 예를 들어 <code>DirtA</code>로 두고,
+    주변에 같은 <code>DirtA</code>가 있으면 연결된 것으로 계산합니다.
+  </div>
+
+  <h2>1. 이미지 자르기</h2>
+  <ol>
+    <li>이미지를 Unity에 넣습니다. 예: <code>Assets/Tiles/Dirt/dirt_patch.png</code></li>
+    <li>Inspector에서 <code>Texture Type</code>을 <code>Sprite (2D and UI)</code>로 설정합니다.</li>
+    <li><code>Sprite Mode</code>를 <code>Multiple</code>로 바꿉니다.</li>
+    <li>Sprite Editor에서 이미지를 <code>3 x 3</code>으로 자릅니다.</li>
+    <li>잘린 9개 스프라이트로 Tile asset을 만듭니다.</li>
+  </ol>
+
+  <h2>2. 3x3 조각과 Mask 위치</h2>
+  <div class="layout">
+    <div>
+      <div class="tile-sheet" aria-label="흙 패치 3x3 타일셋 예시">
+        <div class="piece tl"><span>28</span></div>
+        <div class="piece t"><span>124</span></div>
+        <div class="piece tr"><span>112</span></div>
+        <div class="piece l"><span>31</span></div>
+        <div class="piece"><span>255</span></div>
+        <div class="piece r"><span>241</span></div>
+        <div class="piece bl"><span>7</span></div>
+        <div class="piece b"><span>199</span></div>
+        <div class="piece br"><span>193</span></div>
+      </div>
+    </div>
+
+    <div>
+      <p>
+        위 그림의 숫자가 <code>Tiles By Mask</code> 배열 인덱스입니다.
+        예를 들어 이미지의 가운데 타일은 모든 방향이 흙으로 연결되므로
+        <code>Tiles By Mask[255]</code>에 넣습니다.
+      </p>
+      <p>
+        위쪽 가운데 조각은 왼쪽, 오른쪽, 아래, 왼쪽 아래, 오른쪽 아래가 흙이므로
+        <code>64 + 4 + 16 + 32 + 8 = 124</code>입니다.
+      </p>
+    </div>
+  </div>
+
+  <h2>3. 넣어야 하는 배열 위치</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>이미지 조각</th>
+        <th>연결된 방향</th>
+        <th>계산</th>
+        <th>넣을 위치</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>왼쪽 위 코너</td>
+        <td>오른쪽, 아래, 오른쪽 아래</td>
+        <td><code>4 + 16 + 8 = 28</code></td>
+        <td><code>Tiles By Mask[28]</code></td>
+      </tr>
+      <tr>
+        <td>위쪽 가운데</td>
+        <td>왼쪽, 오른쪽, 아래, 왼쪽 아래, 오른쪽 아래</td>
+        <td><code>64 + 4 + 16 + 32 + 8 = 124</code></td>
+        <td><code>Tiles By Mask[124]</code></td>
+      </tr>
+      <tr>
+        <td>오른쪽 위 코너</td>
+        <td>왼쪽, 아래, 왼쪽 아래</td>
+        <td><code>64 + 16 + 32 = 112</code></td>
+        <td><code>Tiles By Mask[112]</code></td>
+      </tr>
+      <tr>
+        <td>왼쪽 가운데</td>
+        <td>위, 오른쪽, 아래, 오른쪽 위, 오른쪽 아래</td>
+        <td><code>1 + 4 + 16 + 2 + 8 = 31</code></td>
+        <td><code>Tiles By Mask[31]</code></td>
+      </tr>
+      <tr>
+        <td>가운데</td>
+        <td>8방향 전체</td>
+        <td><code>1 + 2 + 4 + 8 + 16 + 32 + 64 + 128 = 255</code></td>
+        <td><code>Tiles By Mask[255]</code></td>
+      </tr>
+      <tr>
+        <td>오른쪽 가운데</td>
+        <td>위, 왼쪽, 아래, 왼쪽 위, 왼쪽 아래</td>
+        <td><code>1 + 64 + 16 + 128 + 32 = 241</code></td>
+        <td><code>Tiles By Mask[241]</code></td>
+      </tr>
+      <tr>
+        <td>왼쪽 아래 코너</td>
+        <td>위, 오른쪽, 오른쪽 위</td>
+        <td><code>1 + 4 + 2 = 7</code></td>
+        <td><code>Tiles By Mask[7]</code></td>
+      </tr>
+      <tr>
+        <td>아래쪽 가운데</td>
+        <td>위, 왼쪽, 오른쪽, 왼쪽 위, 오른쪽 위</td>
+        <td><code>1 + 64 + 4 + 128 + 2 = 199</code></td>
+        <td><code>Tiles By Mask[199]</code></td>
+      </tr>
+      <tr>
+        <td>오른쪽 아래 코너</td>
+        <td>위, 왼쪽, 왼쪽 위</td>
+        <td><code>1 + 64 + 128 = 193</code></td>
+        <td><code>Tiles By Mask[193]</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>4. Auto Tile Set 설정 순서</h2>
+  <ol>
+    <li><code>Create &gt; Tools &gt; World &gt; Auto Tile Set</code>을 만듭니다.</li>
+    <li><code>Tile Id</code>를 <code>DirtA</code>로 설정합니다.</li>
+    <li><code>Fallback Tile</code>에는 가운데 흙 타일이나 가장 무난한 기본 타일을 넣습니다.</li>
+    <li>위 표에 맞춰 <code>Tiles By Mask</code>의 해당 인덱스에 9개 Tile asset을 넣습니다.</li>
+    <li><code>Create &gt; Tools &gt; World &gt; Auto Tile Palette</code>를 만들고 이 Auto Tile Set을 등록합니다.</li>
+    <li>씬의 <code>SampleSceneBootstrap</code>에 있는 <code>Auto Tile Palette</code> 필드에 팔레트를 연결합니다.</li>
+  </ol>
+
+  <h2>5. 현재 프로젝트의 8방향 값</h2>
+  <div class="mask-grid" aria-label="8방향 bitmask 값">
+    <span>128</span>
+    <span>1</span>
+    <span>2</span>
+    <span>64</span>
+    <span class="center">X</span>
+    <span>4</span>
+    <span>32</span>
+    <span>16</span>
+    <span>8</span>
+  </div>
+
+  <div class="warning">
+    이 이미지만으로는 큰 흙 지형의 외곽 8방향과 내부 중앙은 처리할 수 있지만,
+    한 칸짜리 섬, 얇은 길, T자, 십자, 안쪽 코너 같은 모든 경우를 완전히 처리하지는 못합니다.
+    없는 mask는 <code>Fallback Tile</code>로 표시됩니다.
+  </div>
+</main>
+</body>
+</html>
