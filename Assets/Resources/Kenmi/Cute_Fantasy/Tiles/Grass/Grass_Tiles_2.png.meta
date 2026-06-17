@@ -3069,6 +3069,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Grass_Tiles_2_134
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbec167dc43ce3a4aa7fb4d67de5df53
+      internalID: 139068520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -3125,6 +3147,7 @@ TextureImporter:
       Grass_Tiles_2_131: -1510652083
       Grass_Tiles_2_132: -605182299
       Grass_Tiles_2_133: 1749940925
+      Grass_Tiles_2_134: 139068520
       Grass_Tiles_2_14: -230668335
       Grass_Tiles_2_15: 1653127413
       Grass_Tiles_2_16: -769557940

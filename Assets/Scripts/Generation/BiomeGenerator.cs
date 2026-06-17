@@ -19,6 +19,18 @@ namespace TileMap.Generation
 
         public int Seed => seed;
 
+        public void SampleTileAt(WorldTileMap world, int x, int y, out byte groundTileId, out byte overlayTileId)
+        {
+            if (world == null || !world.IsInBounds(x, y))
+            {
+                groundTileId = (byte)TileId.Void;
+                overlayTileId = (byte)TileId.Void;
+                return;
+            }
+
+            GenerateTileAt(world, x, y, out groundTileId, out overlayTileId);
+        }
+
         public void GenerateChunk(WorldTileMap world, int chunkX, int chunkY)
         {
             if (world == null || world.IsChunkGenerated(chunkX, chunkY))
@@ -165,7 +177,20 @@ namespace TileMap.Generation
                 return false;
             }
 
+            if (HasDifferentEdgeHostNeighbor(world, x, y, groundTileId))
+            {
+                return false;
+            }
+
             return HasCardinalGroundNeighbor(world, x, y, grassEdgeSourceGrounds);
+        }
+
+        private bool HasDifferentEdgeHostNeighbor(WorldTileMap world, int x, int y, byte groundTileId)
+        {
+            return IsDifferentGeneratedGroundInSet(world, x, y + 1, groundTileId, grassEdgeOverlayHosts)
+                || IsDifferentGeneratedGroundInSet(world, x + 1, y, groundTileId, grassEdgeOverlayHosts)
+                || IsDifferentGeneratedGroundInSet(world, x, y - 1, groundTileId, grassEdgeOverlayHosts)
+                || IsDifferentGeneratedGroundInSet(world, x - 1, y, groundTileId, grassEdgeOverlayHosts);
         }
 
         private bool HasCardinalGroundNeighbor(WorldTileMap world, int x, int y, TileId[] groundTileIds)
@@ -185,6 +210,17 @@ namespace TileMap.Generation
 
             GenerateBaseTileAt(world, x, y, out byte neighborGroundTileId, out _);
             return ContainsTileId(groundTileIds, neighborGroundTileId);
+        }
+
+        private bool IsDifferentGeneratedGroundInSet(WorldTileMap world, int x, int y, byte groundTileId, TileId[] groundTileIds)
+        {
+            if (!world.IsInBounds(x, y))
+            {
+                return false;
+            }
+
+            GenerateBaseTileAt(world, x, y, out byte neighborGroundTileId, out _);
+            return neighborGroundTileId != groundTileId && ContainsTileId(groundTileIds, neighborGroundTileId);
         }
 
         private static bool ContainsTileId(TileId[] tileIds, byte tileId)

@@ -93,6 +93,13 @@ namespace TileMap.Bootstrap
             }
             tileIdDebugOverlay.Initialize(mainCamera, worldTileMap);
 
+            var worldOverviewRenderer = mainCamera.GetComponent<WorldOverviewRenderer>();
+            if (worldOverviewRenderer == null)
+            {
+                worldOverviewRenderer = mainCamera.gameObject.AddComponent<WorldOverviewRenderer>();
+            }
+            worldOverviewRenderer.Initialize(worldTileMap, biomeGenerator, playerMover);
+
             var inputController = playerObject.AddComponent<TapToMoveController>();
             inputController.Initialize(mainCamera, worldTileMap, playerMover, pathfinder);
 

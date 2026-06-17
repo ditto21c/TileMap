@@ -31,7 +31,7 @@ namespace TileMap.Rendering
             return tile;
         }
 
-        private Color GetColor(TileId tileId)
+        public static Color GetColor(TileId tileId)
         {
             switch (tileId)
             {

@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae68c752286a03644bcb5eb9928e8a0e, type: 3}
   m_Name: AutoTilePalette
   m_EditorClassIdentifier: Assembly-CSharp::TileMap.Data.AutoTilePalette
-  tileSets: []
+  tileSets:
+  - {fileID: 11400000, guid: 3365963d7df5ac54999cacef9a3b9387, type: 2}
+  - {fileID: 11400000, guid: 9f003325bdf12894080c1fe9f1b016eb, type: 2}
+  - {fileID: 11400000, guid: 6e488f4ccad1c75479ac024e3e5f760f, type: 2}
+  - {fileID: 11400000, guid: ebdeb13fa99fe9c4ea7666367eb47ff5, type: 2}
+  - {fileID: 11400000, guid: 0dd01bb522f253542aa800bcd398980b, type: 2}
